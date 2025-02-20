@@ -1,14 +1,34 @@
 #include "game.h"
+#include "common.h"
+#include "paddle.h"
 #include "raylib.h"
 
-void Game::process_frame(float delta) {}
+using namespace Common;
+using namespace Paddle;
 
-void Game::render_frame(float delta) {
-  BeginDrawing();
+Game::Game() { }
 
-  ClearBackground(RAYWHITE);
+Game::~Game() { CloseWindow(); }
 
-  DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+void Game::process_frame(float delta) {
+  world.progress();
+}
 
-  EndDrawing();
+void Game::init_window(const int screen_width, const int screen_height,
+                       const char *title) {
+  InitWindow(screen_width, screen_height, title);
+}
+
+void Game::set_target_fps(const int fps) {
+  SetTargetFPS(fps);
+}
+
+void Game::start_game() {
+  Common::setup_systems(world);
+  Paddle::setup_systems(world);
+  auto paddle = world.entity("Left paddle")
+    .add<CPlayer>()
+    .add<CPaddle>()
+    .set<CRectangle>({WHITE, 100, 100})
+    .set<CPosition>({100, 100});
 }

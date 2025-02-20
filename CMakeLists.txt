@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
-project(kingdom_lite LANGUAGES CXX)
+project(pong_cpp LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -12,5 +12,18 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(raylib)
 
-add_executable(${PROJECT_NAME} src/main.cpp src/game.cpp src/game.h)
-target_link_libraries(${PROJECT_NAME} raylib)
+FetchContent_Declare(
+  flecs
+  GIT_REPOSITORY https://github.com/SanderMertens/flecs
+  GIT_TAG 8a1e9abe412eda7cd7f2a7440dac7499ce42cdca
+)
+FetchContent_MakeAvailable(flecs)
+
+add_executable(${PROJECT_NAME}
+    src/common.cpp
+    src/game.cpp
+    src/main.cpp
+    src/paddle.cpp
+)
+target_include_directories(${PROJECT_NAME} PUBLIC src)
+target_link_libraries(${PROJECT_NAME} raylib flecs::flecs_static)
