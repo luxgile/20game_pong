@@ -3,25 +3,30 @@
 #include "flecs/addons/cpp/mixins/pipeline/decl.hpp"
 #include <cstdio>
 
-namespace Common {
+namespace common {
+common::module::module(flecs::world &world) {
+  world.component<Player>();
+  world.component<Position2D>();
+  world.component<Rectangle>();
+  world.component<BaseColor>();
 
-void setup_systems(flecs::world &world) {
+  // Setup systems
   world.system("Start render").kind(flecs::PreStore).each([]() {
     BeginDrawing();
     ClearBackground(BLACK);
     DrawFPS(10, 10);
   });
 
-  world.system("Stop render").kind(flecs::OnStore).each([]() {
-    EndDrawing();
-  });
+  world.system("Stop render").kind(flecs::OnStore).each([]() { EndDrawing(); });
 
+  auto RenderPhase =
+      world.entity().add(flecs::Phase).depends_on(flecs::PreStore);
 
-  auto RenderPhase = world.entity().add(flecs::Phase).depends_on(flecs::PreStore);
-  world.system<const CPosition, const CRectangle>("Draw rectangles").kind(RenderPhase).each(
-      [](const CPosition &pos, const CRectangle &rect) {
+  world.system<const Position2D, const Rectangle, const BaseColor>("Draw rectangles")
+      .kind(RenderPhase)
+      .each([](const Position2D &pos, const Rectangle &rect, const BaseColor &color) {
         DrawRectangle(pos.value.x, pos.value.y, rect.width, rect.height,
-                      rect.color);
+                      color.value);
       });
 }
-} // namespace Common
+} // namespace common

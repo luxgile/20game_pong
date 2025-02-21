@@ -1,20 +1,30 @@
 #pragma once
 #include "flecs.h"
+#include "flecs/addons/cpp/world.hpp"
 #include "raylib.h"
 #include "raymath.h"
 
-namespace Common {
-struct CPlayer {};
+namespace common {
 
-struct CPosition {
+struct module {
+  module(flecs::world &world);
+};
+
+/// Tag to reference the player.
+struct Player {};
+
+struct Position2D {
   Vector2 value;
 };
 
-struct CRectangle {
-  Color color;
+struct Rectangle {
   float width;
   float height;
 };
 
-void setup_systems(flecs::world &world);
+struct BaseColor {
+  Color value;
+};
 }; // namespace Common
+
+

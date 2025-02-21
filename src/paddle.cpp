@@ -1,11 +1,12 @@
 
 #include "paddle.h"
+#include "common.h"
 
-using namespace Common;
+using namespace common;
 
-void Paddle::setup_systems(flecs::world &world) {
-  world.system<CPosition>().with<CPlayer>()
-    .each([](flecs::entity paddle, CPosition &pos) {
+paddle::module::module(flecs::world &world) {
+  world.system<Position2D>().with<Player>()
+    .each([](flecs::entity paddle, Position2D &pos) {
         if (IsKeyDown(KEY_W)) {
           pos.value.y -= 200.0f * GetFrameTime();
         }
@@ -14,3 +15,4 @@ void Paddle::setup_systems(flecs::world &world) {
         }
       });
 }
+
