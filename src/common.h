@@ -17,6 +17,14 @@ struct Position2D {
   Vector2 value;
 };
 
+struct Velocity2D {
+  Vector2 value;
+};
+
+struct Circle {
+  float radius;
+};
+
 struct Rectangle {
   float width;
   float height;

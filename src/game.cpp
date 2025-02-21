@@ -1,6 +1,7 @@
 #include "game.h"
 #include "common.h"
 #include "paddle.h"
+#include "ball.h"
 #include "raylib.h"
 
 using namespace common;
@@ -25,5 +26,6 @@ void Game::start_game() {
   world.import <flecs::stats>();
   world.import <common::module>();
   world.import <paddle::module>();
-  world.script_run_file("flecs/paddles.flecs");
+  world.import<ball::module>();
+  world.script_run_file("flecs/main.flecs");
 }

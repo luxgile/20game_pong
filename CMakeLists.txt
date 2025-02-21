@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
     src/game.cpp
     src/main.cpp
     src/paddle.cpp
+    src/ball.cpp
 )
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 target_link_libraries(${PROJECT_NAME} raylib flecs::flecs_static)
