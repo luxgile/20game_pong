@@ -1,0 +1,14 @@
+using common.module
+using paddle.module
+
+prefab PaddlePrefab {
+  Paddle
+  Rectangle: {width: 100, height: 100}
+  Position2D: {x: 0, y: 0}
+  BaseColor: {r: 255, g: 255, b: 255, a: 255}
+}
+
+left_paddle : PaddlePrefab {
+  Player
+  Position2D: {x: 100, y: 100}
+}

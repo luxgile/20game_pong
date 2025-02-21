@@ -23,12 +23,9 @@ void Game::set_target_fps(const int fps) {
 }
 
 void Game::start_game() {
+  world.set<flecs::Rest>({});
+  world.import<flecs::stats>();
   world.import<common::module>();
   world.import<paddle::module>();
-  auto paddle = world.entity("Left paddle")
-    .add<Player>()
-    .add<paddle::Paddle>()
-    .set<common::Rectangle>({100, 100})
-    .set<common::BaseColor>({GREEN})
-    .set<Position2D>({100, 100});
+  world.script_run_file("flecs/paddles.flecs");
 }

@@ -5,8 +5,9 @@
 using namespace common;
 
 paddle::module::module(flecs::world &world) {
-  world.system<Position2D>().with<Player>()
-    .each([](flecs::entity paddle, Position2D &pos) {
+  world.component<Paddle>();
+  world.system<Position2D>().with<Player>().each(
+      [](flecs::entity paddle, Position2D &pos) {
         if (IsKeyDown(KEY_W)) {
           pos.value.y -= 200.0f * GetFrameTime();
         }
@@ -15,4 +16,3 @@ paddle::module::module(flecs::world &world) {
         }
       });
 }
-
