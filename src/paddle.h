@@ -1,6 +1,5 @@
 #pragma once
 #include "flecs.h"
-#include "flecs/addons/cpp/world.hpp"
 #include "raylib.h"
 #include "common.h"
 
@@ -11,6 +10,11 @@ struct module {
 };
 
 struct Paddle {};
+
+struct Score {
+  int left = 0;
+  int right = 0;
+};
 
 void setup_systems(flecs::world &world);
 

@@ -1,6 +1,5 @@
 #include "common.h"
-#include "flecs/addons/cpp/c_types.hpp"
-#include "flecs/addons/cpp/mixins/pipeline/decl.hpp"
+#include "flecs.h"
 #include "raylib.h"
 
 namespace common {
@@ -16,6 +15,7 @@ common::module::module(flecs::world &world) {
       .member<unsigned char>("g")
       .member<unsigned char>("b")
       .member<unsigned char>("a");
+  world.component<PipelinePhases>().member<flecs::entity>("RenderPhase");
 
   // Setup systems
   world.system("Start render").kind(flecs::PreStore).each([]() {
@@ -26,8 +26,10 @@ common::module::module(flecs::world &world) {
 
   world.system("Stop render").kind(flecs::OnStore).each([]() { EndDrawing(); });
 
+  
   auto RenderPhase =
       world.entity().add(flecs::Phase).depends_on(flecs::PreStore);
+  world.set<PipelinePhases>({.RenderPhase = RenderPhase});
 
   world
       .system<const Position2D, const Rectangle, const BaseColor>(

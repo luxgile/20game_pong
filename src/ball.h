@@ -6,5 +6,7 @@ namespace ball {
     module(flecs::world &world);
   };
 
-  struct Ball {};
+  struct Ball {
+    int bounces = 0;
+  };
 }

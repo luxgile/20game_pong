@@ -1,6 +1,5 @@
 #pragma once
 #include "flecs.h"
-#include "flecs/addons/cpp/world.hpp"
 #include "raylib.h"
 #include "raymath.h"
 
@@ -8,6 +7,10 @@ namespace common {
 
 struct module {
   module(flecs::world &world);
+};
+
+struct PipelinePhases {
+  flecs::entity RenderPhase;
 };
 
 /// Tag to reference the player.
