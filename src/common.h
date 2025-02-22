@@ -24,6 +24,10 @@ struct Velocity2D {
   Vector2 value;
 };
 
+struct Damping {
+  float value;
+};
+
 struct Circle {
   float radius;
 };

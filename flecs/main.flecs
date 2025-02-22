@@ -1,28 +1,31 @@
 using common.module
 using paddle.module
 using ball.module
+using ai.module
 
 prefab PaddlePrefab {
   Paddle
   Rect: {width: 10, height: 100}
-  Position2D: {x: 0, y: 0}
+  Position2D: {x: 0, y: 300}
   Velocity2D: {x: 0, y: 0}
   BaseColor: {r: 255, g: 255, b: 255, a: 255}
+  Damping: { value: 0.9 }
 }
 
 left_paddle : PaddlePrefab {
   Player
-  Position2D: {x: 10, y: 10}
+  Position2D: {x: 10, y: 250}
 }
 
 right_paddle : PaddlePrefab {
-  Position2D: {x: 780, y: 10}
+  AI
+  Position2D: {x: 780, y: 250}
 }
 
 ball {
   Ball
   Circle: {radius: 10}
   Position2D: {x: 400, y: 400}
-  Velocity2D: {x: 200, y: 50}
+  Velocity2D: {x: 250, y: 0}
   BaseColor: {r: 255, g: 255, b: 255, a: 255}
 }

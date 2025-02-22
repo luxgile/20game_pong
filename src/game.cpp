@@ -1,4 +1,5 @@
 #include "game.h"
+#include "ai.h"
 #include "common.h"
 #include "paddle.h"
 #include "ball.h"
@@ -28,6 +29,7 @@ void Game::start_game() {
   world.import <common::module>();
   world.import <paddle::module>();
   world.import<ball::module>();
+  world.import<ai::module>();
 
   world.set<paddle::Score>({.left = 0, .right = 0});
 

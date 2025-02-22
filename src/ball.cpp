@@ -28,12 +28,12 @@ ball::module::module(flecs::world &world) {
         if (pos.value.x < 0 + circle.radius) {
           reset_ball(pos);
           score.right += 1;
-          vel.value = {-100.0, static_cast<float>(GetRandomValue(-100, 100))};
+          vel.value = {-250.0, static_cast<float>(GetRandomValue(-100, 100))};
         }
         if (pos.value.x > WND_WIDTH - circle.radius) {
           reset_ball(pos);
           score.left += 1;
-          vel.value = {100.0, static_cast<float>(GetRandomValue(-100, 100))};
+          vel.value = {250.0, static_cast<float>(GetRandomValue(-100, 100))};
         }
         if (pos.value.y < 0 + circle.radius) {
           pos.value.y = 0 + circle.radius;
@@ -48,9 +48,9 @@ ball::module::module(flecs::world &world) {
   auto balls =
       world.query_builder<Velocity2D, Position2D, const Circle>().with<Ball>().build();
 
-  world.system<Position2D, common::Rect>("Collide ball with paddles")
+  world.system<Position2D, common::Rect, const Velocity2D>("Collide ball with paddles")
       .with<paddle::Paddle>()
-      .each([balls](Position2D &paddle_pos, common::Rect &paddle_rect) {
+      .each([balls](Position2D &paddle_pos, common::Rect &paddle_rect, const Velocity2D &paddle_vel) {
         auto rect = Rectangle {.x = paddle_pos.value.x,
                                .y = paddle_pos.value.y,
                                .width = paddle_rect.width,
@@ -58,7 +58,8 @@ ball::module::module(flecs::world &world) {
 
         balls.each([&](Velocity2D &ball_vel, Position2D &ball_pos, const Circle &ball) {
           if (CheckCollisionCircleRec(ball_pos.value, ball.radius, rect)) {
-              ball_vel.value.x *= -1;
+              ball_vel.value.x *= -1.2f;
+              ball_vel.value.y += paddle_vel.value.y;
           }
         });
       });
