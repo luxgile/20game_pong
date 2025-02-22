@@ -8,13 +8,14 @@ using namespace common;
 paddle::module::module(flecs::world &world) {
   world.component<Paddle>();
   world.component<Score>().member<float>("left").member<float>("right");
-  world.system<Position2D>().with<Player>().each(
-      [](flecs::entity paddle, Position2D &pos) {
+
+  world.system<Velocity2D>().with<Player>().each(
+      [](Velocity2D& vel) {
         if (IsKeyDown(KEY_W)) {
-          pos.value.y -= 200.0f * GetFrameTime();
+          vel.value.y -= 200.0f * GetFrameTime();
         }
         if (IsKeyDown(KEY_S)) {
-          pos.value.y += 200.0f * GetFrameTime();
+          vel.value.y += 200.0f * GetFrameTime();
         }
       });
 

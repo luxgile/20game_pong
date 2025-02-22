@@ -28,7 +28,7 @@ struct Circle {
   float radius;
 };
 
-struct Rectangle {
+struct Rect {
   float width;
   float height;
 };

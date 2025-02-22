@@ -1,12 +1,18 @@
 #include "ball.h"
 #include "common.h"
 #include "paddle.h"
+#include "raylib.h"
 #include <cstdlib>
 
 using namespace common;
 
 const int WND_WIDTH = 800;
 const int WND_HEIGHT = 600;
+
+void reset_ball(Position2D &pos) {
+  pos.value.x = WND_WIDTH / 2;
+  pos.value.y = WND_HEIGHT / 2;
+}
 
 ball::module::module(flecs::world &world) {
   world.component<Ball>().member<int>("bounces");
@@ -20,18 +26,14 @@ ball::module::module(flecs::world &world) {
       .each([](paddle::Score &score, Position2D &pos, Velocity2D &vel,
                const Circle &circle) {
         if (pos.value.x < 0 + circle.radius) {
-          pos.value.x = 0 + circle.radius;
-          vel.value.x = abs(vel.value.x);
-          
-          // Point for right paddle
+          reset_ball(pos);
           score.right += 1;
+          vel.value = {-100.0, static_cast<float>(GetRandomValue(-100, 100))};
         }
         if (pos.value.x > WND_WIDTH - circle.radius) {
-          pos.value.x = WND_WIDTH - circle.radius;
-          vel.value.x = -abs(vel.value.x);
-
-          // Point for left paddle
+          reset_ball(pos);
           score.left += 1;
+          vel.value = {100.0, static_cast<float>(GetRandomValue(-100, 100))};
         }
         if (pos.value.y < 0 + circle.radius) {
           pos.value.y = 0 + circle.radius;
@@ -41,5 +43,23 @@ ball::module::module(flecs::world &world) {
           pos.value.y = WND_HEIGHT - circle.radius;
           vel.value.y = -abs(vel.value.y);
         }
+      });
+
+  auto balls =
+      world.query_builder<Velocity2D, Position2D, const Circle>().with<Ball>().build();
+
+  world.system<Position2D, common::Rect>("Collide ball with paddles")
+      .with<paddle::Paddle>()
+      .each([balls](Position2D &paddle_pos, common::Rect &paddle_rect) {
+        auto rect = Rectangle {.x = paddle_pos.value.x,
+                               .y = paddle_pos.value.y,
+                               .width = paddle_rect.width,
+                               .height = paddle_rect.height};
+
+        balls.each([&](Velocity2D &ball_vel, Position2D &ball_pos, const Circle &ball) {
+          if (CheckCollisionCircleRec(ball_pos.value, ball.radius, rect)) {
+              ball_vel.value.x *= -1;
+          }
+        });
       });
 }

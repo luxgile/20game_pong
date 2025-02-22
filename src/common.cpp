@@ -9,7 +9,7 @@ common::module::module(flecs::world &world) {
   world.component<Position2D>().member<float>("x").member<float>("y");
   world.component<Velocity2D>().member<float>("x").member<float>("y");
   world.component<Circle>().member<float>("radius");
-  world.component<Rectangle>().member<float>("width").member<float>("height");
+  world.component<Rect>().member<float>("width").member<float>("height");
   world.component<BaseColor>()
       .member<unsigned char>("r")
       .member<unsigned char>("g")
@@ -32,10 +32,10 @@ common::module::module(flecs::world &world) {
   world.set<PipelinePhases>({.RenderPhase = RenderPhase});
 
   world
-      .system<const Position2D, const Rectangle, const BaseColor>(
+      .system<const Position2D, const Rect, const BaseColor>(
           "Draw rectangles")
       .kind(RenderPhase)
-      .each([](const Position2D &pos, const Rectangle &rect,
+      .each([](const Position2D &pos, const Rect &rect,
                const BaseColor &color) {
         DrawRectangle(pos.value.x, pos.value.y, rect.width, rect.height,
                       color.value);

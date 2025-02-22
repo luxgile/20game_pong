@@ -4,7 +4,7 @@ using ball.module
 
 prefab PaddlePrefab {
   Paddle
-  Rectangle: {width: 10, height: 100}
+  Rect: {width: 10, height: 100}
   Position2D: {x: 0, y: 0}
   Velocity2D: {x: 0, y: 0}
   BaseColor: {r: 255, g: 255, b: 255, a: 255}
