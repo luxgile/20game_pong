@@ -24,6 +24,8 @@ void Game::init_window(const int screen_width, const int screen_height,
 void Game::set_target_fps(const int fps) { SetTargetFPS(fps); }
 
 void Game::start_game() {
+  InitAudioDevice();
+
   world.set<flecs::Rest>({});
   world.import <flecs::stats>();
   world.import <common::module>();
