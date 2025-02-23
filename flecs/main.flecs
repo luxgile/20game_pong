@@ -22,6 +22,17 @@ right_paddle : PaddlePrefab {
   Position2D: {x: 780, y: 250}
 }
 
+middle_marker_line {
+  Position2D: {x: 399, y: 0}
+  BaseColor: {r: 255, g: 255, b: 255, a: 255}
+  Rect: {width: 2, height: 800}
+}
+middle_marker_spot {
+  Position2D: {x: 400, y: 300}
+  BaseColor: {r: 255, g: 255, b: 255, a: 255}
+  Circle: {radius: 5}
+}
+
 ball {
   Ball
   Circle: {radius: 10}

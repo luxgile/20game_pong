@@ -35,8 +35,8 @@ paddle::module::module(flecs::world &world) {
   auto phases = world.get<PipelinePhases>();
   world.system<const Score>("Display score").kind(phases->RenderPhase).each(
       [](const Score &score) {
-        DrawText(std::to_string(score.left).c_str(), 100, 10, 20, WHITE);
-        DrawText(std::to_string(score.right).c_str(), 800 - 100, 10, 20,
+        DrawText(std::to_string(score.left).c_str(), 350, 290, 20, WHITE);
+        DrawText(std::to_string(score.right).c_str(), 440, 290, 20,
                  WHITE);
       }
   );
